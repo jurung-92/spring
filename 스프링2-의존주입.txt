@@ -1,0 +1,5 @@
+DI(Dependency Injection) 의존 주입
+스프링만의 기능은 아니다.ㄴ
+프로그래밍을 하는 하나의 방법론
+
+DI 란?
