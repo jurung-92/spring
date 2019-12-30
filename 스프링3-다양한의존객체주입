@@ -1,14 +1,14 @@
 [1]생성자 주입
-<bean id = "abc" class = "Abc">
+<bean id = "abc" class = "package.Abc">
 	<constructor-arg ref = "def"></constructor-arg>
 </bean>
 
 [2]setter 단순주입
-<bean id = "abc" class = "Abc">
+<bean id = "abc" class = "package.Abc">
 	<property name = "jurung" value = "woong"/>
 </bean>
 					 또는
-<bean id = "abc" class = "Abc">
+<bean id = "abc" class = "package.Abc">
 	<property name = "jurung">
 		<value>woong</value>
 	</property>
@@ -18,7 +18,7 @@
 ex) public void setJurung(String string){} 인 경우 반드시 bean id는 jurung이어야 한다.
 
 [3]setter List 주입
-<bean id = "abc" class = "Abc">
+<bean id = "abc" class = "package.Abc">
 	<property name = "jurung">
 		<list>
 			<value>a</value>
@@ -29,7 +29,7 @@ ex) public void setJurung(String string){} 인 경우 반드시 bean id는 jurun
 </bean>
 
 [4]setter Map 주입
-<bean id = "abc" class = "Abc">
+<bean id = "abc" class = "package.Abc">
 	<property name = "jurung">
 		<map>
 			<entry>
