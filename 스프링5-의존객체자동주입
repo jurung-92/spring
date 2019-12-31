@@ -1,0 +1,43 @@
+의존객체자동주입이란?
+스프링 설정 파일에서 의존 객체를 주입할 때 여러가지 태그를 통해서 의존 주입을 하지 않고도 자동으로 필요한 의존 대상 객체를 찾아서
+주입해 주느 기능이다. 
+
+@Autowired
+주입하려고 하는 객체의 타입이 일치하는 객체를 자동으로 주입한다.
+스프링아 객체좀 자동으로 찾아줘~~
+
+Autowired를 사용하기 위해서는 xml파일에서 설정을 해 주어야 한다.
+<beans>태그를 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans.xsd 
+ 		http://www.springframework.org/schema/context 
+ 		http://www.springframework.org/schema/context/spring-context.xsd">
+로 바꾸고
+그 밑에 <context:annotation-config/>를 써준다.
+
+주입이 이루어지는 생성자에 Autowired를 사용해야 한다면 별다른 문제가 없지만
+프로퍼티나 메소드에 의존 주입을 하기 위해서는 디폴드 생성자가 필요하다.
+
+@Resource
+주입하려고 하는 객체의 이름이 일치하는 객체를 자동으로 주입한다.
+Resource는 생성자 위에는 쓰지 못하고 프로퍼티나 메소드 위에 쓸 수 있다.
+
+	*@Resource 어노테이션을 쓰면 에러가 나는 경우가 있다.
+	나같은 경우 에러때문에 원인을 찾으려고 많은 고생을 했는데
+	이유를 말하자면 버전때문이었다.
+	사실 Annotation은 보통 Spring을 배울 때 공부하기 때문에 Spring에 종속된 기능이라고 생각할 수 있겠지만
+	사실은 자바 모듈의 라이브러리다.
+	근데 이 기능이 Java9부터 삭제되었기 때문에 그 이상의 버전에서는 사용이 불가능하다.(나는 java11을 사용했다.)
+	굳이 @Resource 어노테이션을 사용해야 한다면 버전을 내리면 되지만
+	maven에 모듈을 추가해서 사용하는 방법 또한 존재한다.
+	pom.xml에 
+		<dependency>
+		<groupId>javax.annotation</groupId>
+		<artifactId>javax.annotation-api</artifactId>
+		<version>1.3.2</version>
+		</dependency>
+	를 추가해주면 된다.
+
