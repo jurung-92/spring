@@ -1,0 +1,15 @@
+빈 객체에 생명주기가 있다.
+인터페이스를 이용하는 방법
+init, destroy 메소드를 이욯
+
+스프링 컨테이너가 생성되면서 빈 객체도 동시에 생성된다.(생성 시점이 같다.)
+close메소드를 사용하면 스프링 컨테이너와 빈 객체가 동시에 소멸된다.
+빈 객체의 생명주기는 스프링 컨테이너의 생명주기와 같이 한다.
+
+주입하려는 클래스에 implements를 해준다.
+implements InitializingBean, DisposableBean
+그냥 쓰면 에러가 나기 때문에 에러를 해결해준다.(오버라이드 된 2개의 메서드가 생성된다.)
+afterPropertiesSet, destroy
+
+init-method
+destroy-method
