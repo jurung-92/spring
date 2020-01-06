@@ -47,3 +47,21 @@ ex) public void setJurung(String string){} 인 경우 반드시 bean id는 jurun
 		</map>
 	</property>
 </bean>
+
+만약에 map의 value 타입이 객체 타입이라면??
+만약에 Woong타입의 객체가 들어간다면
+<bean id = "woong" class = "package.Woong"/>
+<bean id = "abc" class = package.Abc">
+	<property name = "jurung">
+		<map>
+			<entry>
+				<key>
+					<value>1</value>
+				</key>
+				<ref bean = "woiong"/>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+List도 아마 동일할 것 같다.

@@ -1,0 +1,68 @@
+xml 을 이용한 스프링 설정파일을 자바파일로 만들 수 있다.
+자신이 만든 자바 클래스가 스프링 컨테이너로서 활용될 수 있다는 명시가 필요하다.
+	클래스 위에 @Configuration을 적용한다.
+빈객체는 메소드를 이용하여 대체한다.
+<bean id = "jurung" class ="test.Jurung /> 인 경우
+	public Jurung jurung() {		
+		return new Jurung();
+	}
+여기에서 메소드 이름은 bean에서의 id 이며, 반환 타입은 bean에서의 클래스 타입이다.
+그리고 반드시 메소드 위에 @Bean 이라는 어노테이션을 붙여야 한다.
+
+생성자 주입이 있는 경우(객체)
+<bean id = "woong" class = "test.Woong">
+	<constructor-arg ref = "jurung"></constructor-arg>
+</bean>
+인 경우
+@Bean
+public Woong woong(){
+	return new Woong(jurung());
+}
+생성자 주입이 있는 경우 (객체 x)
+<bean id = "jurung" class = "Jurung">
+	<property name = "name" value = "kim" />
+	<property name = "gender" value = "M" />
+</bean>
+인 경우
+@Bean
+public Jurung jurung(){
+	Jurung jr = new Jurung();
+	jr.setName("kim");
+	jr.setGender("M");
+	return jr;
+}
+리스트는 ArrayList를 구현하고 add해서 집어넣음
+맵도 HashMap으로 구현하고 put해서 집어넣음
+맵의 value 타입이 객체면 위에서 만들어진 메소드 이름을 집어넣으면 됨
+
+Main 메소드에서 위에서 만든 스프링 컨테이너 자바파일을 실행하기 위해서는 (이름을 AnnoConfig.java 라고 지칭)
+GenericXmlApplicationContext 클래스를 사용하지 않고
+AnnotationConfigApplicationContext를 사용함
+AnnotationConfigApplicationContext anno = new AnnotationConfigApplicationContext(AnnoConfig.class);
+
+아니 이걸 현업에서 한다고?
+........
+
+이 또한 xml파일을 여러개로 나눈 것처럼 나눌 수 있다.
+
+만약에 AnnoConfig.java 파일을 3개로 나눈다고 하자
+AnnoConfig1.java		AnnoConfig2.java		AnnoConfig3.java
+
+만약에 AnnoConfig2.java에 있는 메서드가 AnnoConfig3.java 내부에서 매개변수로 사용된다면???
+그때는 @Autowired를 사용하면 된다.
+왜냐하면 xml로 스프링 컨테이너를 만들었든지 java로 스프링 컨테이너를 만들었든지
+동일하게 bean이 생성되는 것이기 때문에 AnnoConfig2.java에서 만들어진 bean을 
+AnnoConfig3.java에서 @Autowired를 사용하여 끌어올 수 있다.
+단, @Autowired를 사용하기 위해서는 끌어온 bean을  사용할 수 있도록 변수를 생성해야 한다.
+그리고 그 변수에 @Autowired 하면 된다.
+
+여러개의 스프링 컨테이너를 가지고 스프링 컨테이너 객체를 생성하는 방법
+매우 간단하다. 그냥 배열 형식으로 집어넣으면 된다.
+AnnotationConfigApplicationContext anno = 
+	new AnnotationConfigApplicationContext(AnnoConfig1.class, AnnoConfig2.class, AnnoConfig3.class);
+	
+Import 하는 방법
+AnnoConfig1에서 AnnoConfig2와 AnnoConfig3을 임포트 하려면
+class 위에 @Import({AnnoConfig2.class, AnnoConfig3.class}) 하면 된다.
+
+
