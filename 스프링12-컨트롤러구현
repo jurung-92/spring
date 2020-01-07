@@ -1,0 +1,60 @@
+@RequestMapping의 속성
+1. value = 매핑 이름
+	속성이 value 하나일 때 value 생략 가능
+2. method = 전송방식(post, get)
+	method=RequestMethod.POST
+	method=RequestMethod.GET	[디폴트값으로 생략가능]
+단, 전송하는 곳과 요청 받는 곳의 전송방식이 같아야 한다.
+ex) <form action = "/test/a" method = "post">
+
+만약 요청하는 부분에서 경로를 하나 더 추가하는 상황이 발생했을 때...
+ex) <form action = "/test/a" method = "post">		
+		-->		<form action = "/test/box/a" method = "post">
+		
+이렇게 된다면 요청을 받는 곳에서도 box라는 경로를 하나 더 추가해야 한다.
+	@RequestMapping("/box/a")
+만약에 메소드가 여러개라면 일일이 @RequestMapping에 box를 추가해야 하는 불상사가 발생한다.
+하지만, 이를 한번에 해결할 수 있는 방법이 있다.
+클래스 위에 @RequestMapping을 추가하고 추가된 경로를 명시해 준다.
+예를들어 클래스 위에 @RequestMapping("/box") 라고 명시를 해 주게 된다면
+메소드에서는 명시된 경로 다음에 해당하는 경로만 추가해 주면 된다. 참 쉽다~~
+
+HttpServletRequest 객체
+요청된 정보를 담을 수 있다.
+
+그래서 일반적으로 매소드(Model model, HttpServletRequest request) {....} 이렇게 사용한다.
+여기서 HttpServletRequest를 다르게 사용할 수 있다.
+@RequestParam("Name") String name 이렇게 쓸 수 있다. 
+위에서 Name은 요청되어 넘어온 데이터의 이름이고 name은 이 데이터를 담는 변수를 말한다.
+그리고 @RequestParam은 여러가지 속성을 가지고 있다.
+@RequestParam(value = "Name", request = true[false], defaultValue = "noname")
+value는 속성이 value 하나이면 생략 가능하다. 
+request가 true이면 데이터가 넘어오지 않으면 에러를 발생하고 false면 데이터가 넘어오지 않아도 문제가 생기지 않는다.
+defaultValue는 데이터가 넘어오지 않았을 때 설정된 디폴트값을 전달한다.
+근데 잘 안쓰이는 것 같다..
+
+{커맨드객체를 이용하는 방법}
+직접 클래스에 접근하는 방법도 있다.
+예를들어 이름, 아이디 패스워드를 관리하는 클래스가 있다고 할 때
+이름, 아이디, 패스워드에 대한 데이터를 전달하는 경우
+HttpServletRequest나 @RequestParam을 사용하지 않고 매개변수로 관리하는 클래스를 설정한다.
+단, 관리하는 클래스는 set, get 처리가 되어 있어야 한다.
+그렇게 된다면 전달하는 데이터가 set메서드에 의해 관리하는 클래스의 객체에 저장되고
+우리는 getter를 이용하여 데이터를 뽑아낼 수 있다. 
+
+model 객체도 사용할 필요가 없는것이
+일반적으로는 모델에 addAttribute로 데이터를 담는데
+위와 같이 클래스로 접근하는 방법을 사용한다면
+jsp 파일에서 객체이름.get을 생략하고 그 다음 단어를 소문자로 만든 뒤의 뒷단어 로 쓰면 데이터가 받아진다.
+
+요즘에는 커맨드객체를 이용하는 방법이 대세이다.
+
+@ModelAttribute
+보통 뷰단에서 커멘드객체를 사용할 때 객체의 이름을 참조하여 사용하는데
+@ModelAttribute를 사용하면 참조하는 이름을 변경할 수 있다.
+@ModelAttribute("mem") Member member 이렇게 메소드의 매개변수를 선언하고
+뷰단에서는 mem이라는 이름을 참조하여 데이터를 가져올 수 있다.
+ 
+
+
+
